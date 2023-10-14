@@ -30,3 +30,25 @@ def LER_YUV(filePath, width, height, frameNumber):
 [Y,U,V] = LER_YUV("foreman.yuv", 358, 288, 10)
 
 
+def resize2hw (image):
+    newImageHeight = image.height*2
+    newImageWidth = image.width*2
+
+    newImage = np.zeros((newImageWidth, newImageHeight))
+
+    # copia a primeira coluna pra newImage 
+        # pula pra coluna de newImage + 2
+    
+    # copia a primeira linha pra newImage
+        # pula pra linha de newImage + 2
+
+
+def fillWithImmediates (image):
+    # percorre todo newImage e subtitui os pixels pretos (valor = 0)
+    return
+
+def fillWithAvarage (image):
+    return
+
+
+
