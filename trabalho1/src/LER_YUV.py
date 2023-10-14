@@ -2,7 +2,8 @@ import numpy as np
 
 def LER_YUV(filePath, width, height, frameNumber):
     
-    frameSize = int(width * height * 1.5)
+    # frame_size = (width * height) + (width // 2) * (height // 2) * 2
+    frameSize = int(width * height * 3 / 2)
 
     # Read the .yuv file into a NumPy array
     with open(filePath, 'rb') as file:
