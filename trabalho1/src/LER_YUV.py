@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
-
-# TODO: receber parametros de LER_YUV via linha de comando
+import sys
 
 def LER_YUV(filePath, width, height, frameNumber):
     
@@ -105,7 +104,12 @@ def fillWithAvarage (imageIn):
 
 #QUESTAO 1.1
 # Extrai Y,U e V de arquivo de video
-[Y,U,V] = LER_YUV("foreman.yuv", 352, 288, 15)
+
+if(len(sys.argv) < 5):
+    print("Executar programa com nome do arquivo, largura, altura e numero do quadro.")
+    exit(1)
+
+[Y,U,V] = LER_YUV(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
 
 originalY = Y
 originalU = U
