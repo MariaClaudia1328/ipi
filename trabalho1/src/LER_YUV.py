@@ -4,41 +4,32 @@ import sys
 
 def LER_YUV(filePath, width, height, frameNumber):
     
-    # frameSize = (width * height) + (width // 2) * (height // 2) * 2
     frameSize = int(width * height * 3 / 2)
 
-    # Lê o arquivo e processa Y, U e V
     with open(filePath, 'rb') as file:
 
-        # Salta para posição dada a partir do começo do arquivo
         bytesToSkip = frameNumber * width * height
         file.seek(bytesToSkip, 0)
         yuvData = np.fromfile(file, dtype=np.uint8, count = frameSize)
 
-        # Calcula tamanho de Y, U e V
         ySize = width * height
         uvSize = ySize // 4
 
-        # Separa Y, U e V
         Y = yuvData[:ySize].reshape(height, width)
         U = yuvData[ySize:ySize+uvSize].reshape(height//2, width//2)
         V = yuvData[ySize + uvSize:].reshape(height//2, width//2)
 
     return [Y,U,V]
 
-# Redimensiona altura e largura da imagem em múltiplo de 2
 def resize2hw (image, newSize):
 
-    # Calcula tamanhos da imagem a ser redimensionada
     imageHeight = image.shape[0]
     imageWidth = image.shape[1]
 
-    # Cria nova imagem com o tamanho escolhido, com todos os pixels pretos
     newImageHeight = imageHeight*2*newSize
     newImageWidth = imageWidth*2*newSize
     newImage = np.zeros((newImageHeight, newImageWidth), dtype=np.uint8)
 
-    # Preenche nova imagem pixel a pixel, saltando uma coluna e uma linha
     l = 0
     m = 0
     for i in range(0,imageHeight):
@@ -50,7 +41,6 @@ def resize2hw (image, newSize):
         
     return newImage
 
-# Preenche pixels pretos com pixels imediatos à esquerda ou superiores
 def fillWithImmediates (imageIn):
     image = imageIn.copy()
     imageHeight = image.shape[0]
@@ -67,7 +57,6 @@ def fillWithImmediates (imageIn):
 
     return image
 
-# Preenche pixels pretos com a média dos pixels que não são pretos
 def fillWithAvarage (imageIn):
     image = imageIn.copy()
     imageHeight = image.shape[0]
@@ -98,13 +87,6 @@ def fillWithAvarage (imageIn):
                     image[i][j] = (np.uint16(image[i-1][j-1]) + np.uint16(image[i+1][j+1]) + np.uint16(image[i-1][j+1]) + np.uint16(image[i+1][j-1])) / 4
     return image
 
-# Uso das funções criadas acima
-
-#RESULTADOS
-
-#QUESTAO 1.1
-# Extrai Y,U e V de arquivo de video
-
 if(len(sys.argv) < 5):
     print("Executar programa com nome do arquivo, largura, altura e numero do quadro.")
     exit(1)
@@ -132,7 +114,6 @@ cv2.imwrite("../assets/questao1/questao1-1/YUV_Original_Image.jpg", bgrImage)
 newU = resize2hw(U, 1)
 newV = resize2hw(V, 1)
 
-#QUESTAO 1.2
 cv2.imwrite("../assets/questao1/questao1-2/Resized_U.jpg", newU)
 cv2.imwrite("../assets/questao1/questao1-2/Resized_V.jpg", newV)
 
@@ -144,7 +125,6 @@ newV_avg = fillWithAvarage(newV)
 newU_imm = fillWithImmediates(newU)
 newV_imm = fillWithImmediates(newV)
 
-#QUESTAO 1.3 e 1.4
 # Utiliza preenchimento dos pixels pretos com a média para criar nova imagem
 mergedYUV_avg = cv2.merge([Y, newV_avg, newU_avg])
 bgrImage_avg = cv2.cvtColor(mergedYUV_avg, cv2.COLOR_YCrCb2BGR)
@@ -165,7 +145,6 @@ originalY = Y
 originalU = U
 originalV = V
 
-#QUESTAO 1.5
 # Duplica o tamanho de Y, U e V 
 originalY_2x = resize2hw(originalY, 1)
 originalU_2x = resize2hw(originalU, 1)
@@ -183,8 +162,6 @@ originalU_2x_imm = np.repeat(originalU_2x_imm, 2, axis=0)
 originalU_2x_imm = np.repeat(originalU_2x_imm, 2, axis=1)
 originalV_2x_imm = np.repeat(originalV_2x_imm, 2, axis=0)
 originalV_2x_imm = np.repeat(originalV_2x_imm, 2, axis=1)
-
-# Mostra imagem YUV com o dobro do tamanho no formato 4:2:0
 
 # Utiliza preenchimento dos pixels pretos com imediatos para criar nova imagem
 yuv2x_imm = np.stack((originalY_2x_imm, originalV_2x_imm, originalU_2x_imm), axis = -1)
