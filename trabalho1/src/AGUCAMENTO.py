@@ -56,5 +56,5 @@ if(len(sys.argv) < 3):
     print("Executar programa com nome do arquivo e qual o tipo do filtro Laplaciano.")
     exit(1)
 
-# Coleta de resultados
+# Executa o aguçamento e coleta os resultados
 sharpening(sys.argv[1], sys.argv[2])
