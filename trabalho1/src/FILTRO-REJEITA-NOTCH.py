@@ -51,17 +51,20 @@ Result = np.abs(inverse_NotchReject)
 plt.figure()
 plt.imshow(img, cmap='gray')
 plt.title('Original')
+plt.savefig("../assets/questao3/questao3-1/original.jpg")
 
 plt.figure()
 plt.imshow(magnitude_spectrum, cmap='gray')
-plt.title('magnitude spectrum')
+plt.title('Magnitude Spectrum')
+plt.savefig("../assets/questao3/questao3-2/magnitude_spectrum.jpg")
 
 plt.figure()
 plt.imshow(magnitude_spectrum*NotchFilter, "gray") 
 plt.title("Notch Reject Filter")
+plt.savefig("../assets/questao3/questao3-2/filter.jpg")
 
 plt.figure()
 plt.imshow(Result, "gray") 
 plt.title("Result")
+plt.savefig("../assets/questao3/questao3-2/result.jpg")
 
-plt.show()
