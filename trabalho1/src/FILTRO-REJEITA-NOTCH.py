@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
+import sys
 
 def getFshift (img):
     
@@ -29,7 +30,11 @@ def notchRejectFilter(shape, D0, uk, vk):
 
     return H
 
-img = cv2.imread("../assets/media_test/moire.tif", cv2.IMREAD_GRAYSCALE)
+if(len(sys.argv) < 2):
+    print("Executar programa com nome do arquivo.")
+    exit(1)
+
+img = cv2.imread(sys.argv[1], cv2.IMREAD_GRAYSCALE)
 
 f = np.fft.fft2(img)
 fshift = np.fft.fftshift(f)
