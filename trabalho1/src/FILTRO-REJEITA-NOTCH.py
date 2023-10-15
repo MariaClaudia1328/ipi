@@ -3,16 +3,6 @@ import cv2
 from matplotlib import pyplot as plt
 import sys
 
-def getFshift (img):
-    
-    f = np.fft.fft2(img)
-    fshift = np.fft.fftshift(f)
-    phase_spectrumR = np.angle(fshift)
-    magnitudeSpectrum = 20 * np.log(np.abs(fshift))
-
-    return fshift, magnitudeSpectrum, phase_spectrumR
-
-
 def notchRejectFilter(shape, D0, uk, vk):
     P, Q = shape
 
@@ -31,45 +21,44 @@ def notchRejectFilter(shape, D0, uk, vk):
     return H
 
 if(len(sys.argv) < 2):
-    print("Executar programa com nome do arquivo.")
+    print("Executar programa com nome do arquivo de imagem.")
     exit(1)
 
-img = cv2.imread(sys.argv[1], cv2.IMREAD_GRAYSCALE)
+image = cv2.imread(sys.argv[1], cv2.IMREAD_GRAYSCALE)
 
-f = np.fft.fft2(img)
+f = np.fft.fft2(image)
 fshift = np.fft.fftshift(f)
-phase_spectrum = np.angle(fshift)
-magnitude_spectrum = 20*np.log(np.abs(fshift))
+magnitudeSpectrum = 20*np.log(np.abs(fshift))
 
-H1 = notchRejectFilter(img.shape, 10, 39, 30 )
-H2 = notchRejectFilter(img.shape, 10, -39, 30 )
-H3 = notchRejectFilter(img.shape, 5, 78, 30 )
-H4 = notchRejectFilter(img.shape, 5, -78, 30 )
+H1 = notchRejectFilter(image.shape, 10, 39, 30 )
+H2 = notchRejectFilter(image.shape, 10, -39, 30 )
+H3 = notchRejectFilter(image.shape, 5, 78, 30 )
+H4 = notchRejectFilter(image.shape, 5, -78, 30 )
 
 NotchFilter = H1*H2*H3*H4
-NotchRejectCenter = fshift * NotchFilter
-NotchReject = np.fft.ifftshift(NotchRejectCenter)
-inverse_NotchReject = np.fft.ifft2(NotchReject)
+imageFiltered = fshift * NotchFilter
+imageFiltered_ishift = np.fft.ifftshift(imageFiltered)
+imageFiltered_inversef = np.fft.ifft2(imageFiltered_ishift)
 
-Result = np.abs(inverse_NotchReject)
+finalImage = np.abs(imageFiltered_inversef)
 
 plt.figure()
-plt.imshow(img, cmap='gray')
+plt.imshow(image, cmap='gray')
 plt.title('Original')
 plt.savefig("../assets/questao3/questao3-1/original.jpg")
 
 plt.figure()
-plt.imshow(magnitude_spectrum, cmap='gray')
+plt.imshow(magnitudeSpectrum, cmap='gray')
 plt.title('Magnitude Spectrum')
 plt.savefig("../assets/questao3/questao3-2/magnitude_spectrum.jpg")
 
 plt.figure()
-plt.imshow(magnitude_spectrum*NotchFilter, "gray") 
+plt.imshow(magnitudeSpectrum*NotchFilter, "gray") 
 plt.title("Notch Reject Filter")
 plt.savefig("../assets/questao3/questao3-2/filter.jpg")
 
 plt.figure()
-plt.imshow(Result, "gray") 
+plt.imshow(finalImage, "gray") 
 plt.title("Result")
 plt.savefig("../assets/questao3/questao3-2/result.jpg")
 
