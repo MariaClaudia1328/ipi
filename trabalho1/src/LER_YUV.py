@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 
+# TODO: receber parametros de LER_YUV via linha de comando
+
 def LER_YUV(filePath, width, height, frameNumber):
     
     # frameSize = (width * height) + (width // 2) * (height // 2) * 2
