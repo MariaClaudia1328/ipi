@@ -126,16 +126,16 @@ newU_imm = fillWithImmediates(newU)
 newV_imm = fillWithImmediates(newV)
 
 # Utiliza preenchimento dos pixels pretos com a média para criar nova imagem
-mergedYUV_avg = cv2.merge([Y, newV_avg, newU_avg])
-bgrImage_avg = cv2.cvtColor(mergedYUV_avg, cv2.COLOR_YCrCb2BGR)
+mergedYUV_avg = cv2.merge([Y, newU_avg, newV_avg])
+bgrImage_avg = cv2.cvtColor(mergedYUV_avg, cv2.COLOR_YUV2BGR)
 cv2.imwrite("../assets/questao1/questao1-3/newU_Image_(U_and_V_resized)_[Avarage].jpg", newU_avg)
 cv2.imwrite("../assets/questao1/questao1-3/newV_Image_(U_and_V_resized)_[Avarage].jpg", newV_avg)
 cv2.imwrite("../assets/questao1/questao1-3/YUV_Image_(U_and_V_resized)_[Avarage].jpg", bgrImage_avg)
 cv2.imwrite("../assets/questao1/questao1-4/YUV_Image_(U_and_V_resized)_[Avarage].jpg", bgrImage_avg)
 
 # Utiliza preenchimento dos pixels pretos com imediatos para criar nova imagem
-mergedYUV_imm = cv2.merge([Y, newV_imm, newU_imm])
-bgrImage_imm = cv2.cvtColor(mergedYUV_imm, cv2.COLOR_YCrCb2BGR)
+mergedYUV_imm = cv2.merge([Y, newU_imm, newV_imm])
+bgrImage_imm = cv2.cvtColor(mergedYUV_imm, cv2.COLOR_YUV2BGR)
 cv2.imwrite("../assets/questao1/questao1-2/newU_Image_(U_and_V_resized)_[Immediate].jpg", newU_imm)
 cv2.imwrite("../assets/questao1/questao1-2/newV_Image_(U_and_V_resized)_[Immediate].jpg", newV_imm)
 cv2.imwrite("../assets/questao1/questao1-2/YUV_Image_(U_and_V_resized)_[Immediate].jpg", bgrImage_imm)
@@ -164,8 +164,8 @@ originalV_2x_imm = np.repeat(originalV_2x_imm, 2, axis=0)
 originalV_2x_imm = np.repeat(originalV_2x_imm, 2, axis=1)
 
 # Utiliza preenchimento dos pixels pretos com imediatos para criar nova imagem
-yuv2x_imm = np.stack((originalY_2x_imm, originalV_2x_imm, originalU_2x_imm), axis = -1)
-bgr2x_imm = cv2.cvtColor(yuv2x_imm, cv2.COLOR_YCR_CB2BGR)
+yuv2x_imm = np.stack((originalY_2x_imm, originalU_2x_imm, originalV_2x_imm), axis = -1)
+bgr2x_imm = cv2.cvtColor(yuv2x_imm, cv2.COLOR_YUV2BGR)
 cv2.imwrite("../assets/questao1/questao1-5/Y_Resized_by_2_[Immediate].jpg", originalY_2x_imm)
 cv2.imwrite("../assets/questao1/questao1-5/U_Resized_by_2_[Immediate].jpg", originalU_2x_imm)
 cv2.imwrite("../assets/questao1/questao1-5/V_Resized_by_2_[Immediate].jpg", originalV_2x_imm)
@@ -182,8 +182,8 @@ originalV_2x_avg = np.repeat(originalV_2x_avg, 2, axis=0)
 originalV_2x_avg = np.repeat(originalV_2x_avg, 2, axis=1)
 
 # Utiliza preenchimento dos pixels pretos com media para criar nova imagem
-yuv2x_avg = np.stack((originalY_2x_avg, originalV_2x_avg, originalU_2x_avg), axis = -1)
-bgr2x_avg = cv2.cvtColor(yuv2x_avg, cv2.COLOR_YCR_CB2BGR)
+yuv2x_avg = np.stack((originalY_2x_avg, originalU_2x_avg, originalV_2x_avg), axis = -1)
+bgr2x_avg = cv2.cvtColor(yuv2x_avg, cv2.COLOR_YUV2BGR)
 cv2.imwrite("../assets/questao1/questao1-5/Y_Resized_by_2_[Avarage].jpg", originalY_2x_avg)
 cv2.imwrite("../assets/questao1/questao1-5/U_Resized_by_2_[Avarage].jpg", originalU_2x_avg)
 cv2.imwrite("../assets/questao1/questao1-5/V_Resized_by_2_[Avarage].jpg", originalV_2x_avg)
